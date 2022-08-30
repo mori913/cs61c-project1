@@ -20,6 +20,26 @@ void usage(char* argv[])
 int P3colorpalette(char* colorfile, int width, int heightpercolor, char* outputfile)
 {
 	//YOUR CODE HERE
+  FILE* file = fopen(colorfile, "r");
+  if(file == NULL || width < 1 || heightpercolor < 1){
+    return 1;
+  }
+  int line;
+  uint8_t** color_map = FileToColorMap(colorfile, &line);
+  fprintf(outputfile, "%s %d %d %d\n", "P3", width, line*heightpercolor, 255);
+  for(int i = 0; i < line; i++){
+    for(int k = 0; k < heightpercolor; k++){
+     for(int j = 0; j < width; j++){
+      if(j != 0){
+        fprintf(outputfile, " ");
+      }
+     fprintf(outputfile, "%uhh %uhh %uhh", color_map[i,0], color_map[i,1], color_map[i,2]); 
+    }
+    fprintf(outputfile, "\n");
+    }
+  }
+
+  fclose(file);
 	return 0;
 }
 
@@ -27,6 +47,25 @@ int P3colorpalette(char* colorfile, int width, int heightpercolor, char* outputf
 int P6colorpalette(char* colorfile, int width, int heightpercolor, char* outputfile)
 {
 	//YOUR CODE HERE
+   FILE* file = fopen(colorfile, "r");
+  if(file == NULL || width < 1 || heightpercolor < 1){
+    return 1;
+  }
+  int line;
+  uint8_t** color_map = FileToColorMap(colorfile, &line);
+  fprintf(outputfile, "%s %d %d %d\n", "P6", width, line*heightpercolor, 255);
+  for(int i = 0; i < line; i++){
+    for(int k = 0; k < heightpercolor; k++){
+     for(int j = 0; j < width; j++){
+      if(j != 0){
+        fprintf(outputfile, " ");
+      }
+     fprintf(outputfile, "%c %c %c", color_map[i,0], color_map[i,1], color_map[i,2]); 
+    }
+    fprintf(outputfile, "\n");
+    }
+  }
+
 	return 0;
 }
 
